@@ -1,6 +1,8 @@
-﻿using BLL;
+﻿using AutoMapper;
+using BLL;
 using BLL.DTO;
 using BLL.RepositoryServices.Implementations.RepositoryServices;
+using DAL.Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ namespace WPF
     public partial class MainWindow : Window
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IMapper _mapper;
 
         public MainWindow()
         {
@@ -22,6 +25,7 @@ namespace WPF
             serviceCollection.AddBLLServices();
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
+            _mapper = _serviceProvider.GetRequiredService<IMapper>(); // тута
         }
 
         private async void Fill()
@@ -32,8 +36,7 @@ namespace WPF
 
             if (response.StatusCode.StatusCode == 200)
             {
-                List<UserDTO> users = response.Data;
-
+                var users = _mapper.Map<List<UserDTO>>(response.Data);
 
                 userGrid.ItemsSource = users;
             }
@@ -49,15 +52,15 @@ namespace WPF
 
         private void AddMenu_Click(object sender, RoutedEventArgs e)
         {
-            List<User> users = (List<User>)userGrid.ItemsSource;
+            List<UserDTO> users = (List<UserDTO>)userGrid.ItemsSource;
             UserRepositoryService? service = _serviceProvider.GetService<UserRepositoryService>();
 
-            users.ForEach(async user => await service.UpdateAsync(user));
+            users.ForEach(async user => await service.UpdateAsync(user)); // TODO: тут шото не то
         }
 
         private async void EditMenu_Click(object sender, RoutedEventArgs e)
         {
-            User user = (User)userGrid.SelectedItem;
+            UserDTO user = (UserDTO)userGrid.SelectedItem;
             UserRepositoryService? service = _serviceProvider.GetService<UserRepositoryService>();
 
             await service.UpdateAsync(user);
@@ -65,13 +68,13 @@ namespace WPF
 
         private async void DeleteMenu_Click(object sender, RoutedEventArgs e)
         {
-            User user = (User)userGrid.SelectedItem;
+            UserDTO user = (UserDTO)userGrid.SelectedItem;
             UserRepositoryService? service = _serviceProvider.GetService<UserRepositoryService>();
 
-            await service.DeleteAsync(user);
+            await service.DeleteAsync(user); // тута
 
             var response = await service.GetAllAsync();
-            List<User> users = response.Data;
+            List<UserDTO> users = _mapper.Map<List<UserDTO>>(response.Data);
             userGrid.ItemsSource = users;
         }
     }

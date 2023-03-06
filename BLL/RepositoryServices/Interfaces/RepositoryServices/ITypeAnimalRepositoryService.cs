@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLL.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.RepositoryServices.Interfaces.RepositoryServices
 {
-    public interface ITypeAnimalRepositoryService
+    public interface ITypeAnimalRepositoryService : IRepositoryService<TypeAnimalDTO>
     {
     }
 }

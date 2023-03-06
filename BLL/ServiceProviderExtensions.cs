@@ -1,4 +1,5 @@
-﻿using BLL.RepositoryServices.Implementations.RepositoryServices;
+﻿using BLL.Mappings;
+using BLL.RepositoryServices.Implementations.RepositoryServices;
 using DAL;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,7 +11,7 @@ namespace BLL
         {
             services.AddInfrastructure();
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(typeof(UserProfile), typeof(AnimalProfile), typeof(TrophyProfile), typeof(TypeAnimalProfile));
 
             services.AddScoped<AnimalRepositoryService>();
             services.AddScoped<UserRepositoryService>();
