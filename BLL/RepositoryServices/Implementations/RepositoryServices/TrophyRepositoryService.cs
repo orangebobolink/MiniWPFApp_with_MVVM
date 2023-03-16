@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BLL.RepositoryServices.Implementations.RepositoryServices
 {
-    public class TrophyRepositoryService : ITrophyRepositoryService
+    internal class TrophyRepositoryService : ITrophyRepositoryService
     {
         private ITrophyRepository _repository;
         private IMapper _mapper;

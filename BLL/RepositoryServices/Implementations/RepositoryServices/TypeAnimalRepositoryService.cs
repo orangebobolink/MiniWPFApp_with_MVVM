@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BLL.RepositoryServices.Implementations.RepositoryServices
 {
-    public class TypeAnimalRepositoryService : ITypeAnimalRepositoryService
+    internal class TypeAnimalRepositoryService : ITypeAnimalRepositoryService
     {
         private ITypeAnimalRepository _repository;
         private IMapper _mapper;

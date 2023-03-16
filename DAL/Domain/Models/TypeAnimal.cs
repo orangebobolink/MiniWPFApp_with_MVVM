@@ -2,6 +2,6 @@
 {
     public class TypeAnimal : EntityBase
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

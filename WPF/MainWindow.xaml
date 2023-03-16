@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF" xmlns:col="clr-namespace:System.Collections;assembly=System.Runtime.Extensions"
+        xmlns:local="clr-namespace:WPF" xmlns:col="clr-namespace:System.Collections;assembly=System.Runtime.Extensions" xmlns:viewmodels="clr-namespace:WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UserViewModel}"
         mc:Ignorable="d"
-        Title="ОХОТАААААА" Height="450" Width="800"
+        Title="ОХОТАААААА" Height="450" Width="903"
         ResizeMode="NoResize">
     <Grid>
 
@@ -14,53 +14,131 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="150px"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        <Menu Height="40" 
+        <Grid Grid.Row="0"
+              Grid.ColumnSpan="2">
+            <Menu Height="40" 
               VerticalAlignment="Top" 
-              FontSize="20" 
-              Grid.Row="0">
-            <MenuItem Header="Считать" 
-                      Click="MenuItem_Click"/>
-            <MenuItem Name ="AddMenu" 
+              FontSize="20" >
+                <MenuItem Header="Считать" 
+                      Command="{Binding FillCommand}" 
+                      Click="MenuItem_Click_1"/>
+                <MenuItem Name ="AddMenu" 
                       Header="Записать" 
                       IsEnabled="False" 
-                      Click="AddMenu_Click" />
-            <MenuItem Name ="EditMenu" 
-                      Header="Изменить" 
-                      IsEnabled="False" 
-                      Click="EditMenu_Click"/>
-            <MenuItem Name ="DeleteMenu" 
+                      Command="{Binding RecordingCommand}" />
+                <MenuItem Name ="DeleteMenu" 
                       Header="Удалить" 
                       IsEnabled="False" 
-                      Click="DeleteMenu_Click"/>
-        </Menu>
+                      
+                      Command="{Binding RemoveCommand}"
+                      CommandParameter="{Binding SelectedUser}"/>
+            </Menu>
+        </Grid>
 
-        <DataGrid Name="userGrid" 
+        <Grid Grid.Row="1" Grid.Column="0">
+
+            <DataGrid Name="userGrid" 
                   AutoGenerateColumns="False" 
                   HorizontalGridLinesBrush="DarkGray"
                   RowBackground="LightGray" 
-                  AlternatingRowBackground="White" 
-                  Grid.Row="1" 
+                  AlternatingRowBackground="White"  
                   FontSize="20"
                   IsReadOnly="False"
-                  CanUserAddRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" 
+                  CanUserAddRows="False"
+                  ItemsSource="{Binding UsersDTO}"
+                  SelectedItem="{Binding SelectedUser}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Имя" 
                                     Binding="{Binding Path=FirstName}" 
                                     Width="150"/>
-                <DataGridTextColumn Header="Фамилия" 
+                    <DataGridTextColumn Header="Фамилия" 
                                     Binding="{Binding Path=LastName}"  
                                     Width="150" />
-                <DataGridTextColumn Header="Отчество" 
+                    <DataGridTextColumn Header="Отчество" 
                                     Binding="{Binding Path=MiddleName}"  
                                     Width="150"/>
-                <DataGridTextColumn Header="Возраст" 
+                    <DataGridTextColumn Header="Возраст" 
                                     Binding="{Binding Path=Age}"   
                                     Width="150"/>
-                <DataGridTextColumn Header="Животное" 
+                    <DataGridTextColumn Header="Животное" 
                                     Binding="{Binding Path=Trophy.Animal.Type.Name}" 
                                     Width="190"/>
-            </DataGrid.Columns>
-        </DataGrid>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="110px"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="1" 
+                        Grid.Column="1" 
+                        Text="Поиск по возрасту"
+                        FontSize="18px"
+                        TextWrapping="Wrap"/>
+
+            <TextBox Grid.Row="2" 
+                     Grid.Column="1" 
+                     Height="30px"
+                     FontSize="18px"
+                     Name="TextBoxFindAge"
+                     >
+                <Binding Path="FindAgeText" ValidatesOnDataErrors="True" 
+                UpdateSourceTrigger="PropertyChanged">
+
+                </Binding>
+            </TextBox>
+
+            <Button  Grid.Row="3" 
+                     Grid.Column="1" 
+                     Height="30px"
+                     FontSize="18px"
+                     Name="ButtonFindAge"
+                     Command="{Binding FindAgeCommand}"
+                     >Поиск</Button>
+
+            <TextBlock Grid.Row="4" 
+                        Grid.Column="1" 
+                        Text="Поиск по животному"
+                        FontSize="18px"
+                        TextWrapping="Wrap"/>
+
+            <TextBox Grid.Row="5" 
+                     Grid.Column="1" 
+                     Height="30px"
+                     FontSize="18px">
+
+                <Binding Path="FindAnimalText" 
+                         ValidatesOnDataErrors="True" 
+                         UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox>
+
+            <Button  Grid.Row="6" 
+                     Grid.Column="1" 
+                     Height="30px"
+                     FontSize="18px"
+                     Name="ButtonFindAnimal"
+                     Command="{Binding FindAnimalCommand}"
+                     >Поиск</Button>
+        </Grid>
     </Grid>
 </Window>

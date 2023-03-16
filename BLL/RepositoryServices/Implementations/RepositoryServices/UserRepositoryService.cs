@@ -6,10 +6,11 @@ using DAL.Domain;
 using DAL.Domain.Interfaces.ImplementationsOfRepository;
 using DAL.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace BLL.RepositoryServices.Implementations.RepositoryServices
 {
-    internal class UserRepositoryService : IUserRepositoryService
+    public class UserRepositoryService : IUserRepositoryService
     {
         private IUserRepository _repository;
         private IMapper _mapper;
@@ -34,8 +35,9 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
                     };
                 }
 
-                var animal = _mapper.Map<User>(entity);
-                await _repository.DeleteAsync(animal);
+                var user = new User();
+                _mapper.Map(entity, user);
+                await _repository.DeleteAsync(user);
 
                 return new BaseResponse<bool>()
                 {
@@ -60,7 +62,8 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
             try
             {
                 var user = await _repository.GetAllAsync();
-                var values = _mapper.Map<List<UserDTO>>(user);
+                var s = new Lazy<IMapper>(_mapper);
+                var values = s.Map<List<UserDTO>>(user);
 
                 return new BaseResponse<List<UserDTO>>()
                 {

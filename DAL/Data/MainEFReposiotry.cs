@@ -31,7 +31,7 @@ namespace DAL.Data
         }
 
         public async Task<List<T>> GetAllAsync()
-            => await _dbContext.Set<T>().ToListAsync();
+            => await _dbContext.Set<T>().AsNoTracking().ToListAsync();
 
         public async Task<T> GetValueAsync(int id)
             => await _dbContext.Set<T>().FindAsync(id);
