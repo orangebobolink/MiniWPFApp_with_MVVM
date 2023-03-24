@@ -3,6 +3,7 @@ using BLL;
 using BLL.DTO;
 using BLL.RepositoryServices.Implementations.RepositoryServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -128,7 +129,16 @@ namespace WPF.ViewModels
                 return _fillCommand ??
                   (_fillCommand = new RelayCommand(async obj =>
                   {
+                      var allTypeAnimal = await GetAllTypeAnimalAsync();
+
+                      var allAnimal = await GetAllAnimalAsync();
+                      allAnimal.ForEach(a => a.Type = allTypeAnimal[a.TypeId - 1]);
+
+                      var allTrophy = await GetAllTrophyAsync();
+                      allTrophy.ForEach(t => t.Animal = allAnimal[t.AnimalId - 1]);
+
                       var allUsers = await GetAllUsersAsync();
+                      allUsers.ForEach(u => u.Trophy = allTrophy[u.TrophyId - 1]);
 
                       UsersDTO.Clear();
                       allUsers.ForEach(user => UsersDTO.Add(user));
@@ -149,6 +159,7 @@ namespace WPF.ViewModels
                       {
                           UsersDTO.Remove(user);
                           var service = _serviceProvider.GetService<UserRepositoryService>();
+                          user.Trophy = null;
 
                           var f = service.DeleteAsync(user)?.Result;
                       }
@@ -235,7 +246,7 @@ namespace WPF.ViewModels
                       UserDTO user = (UserDTO)obj;
                       if (user != null)
                       {
-
+                          user.Trophy = null;
                           var service = _serviceProvider.GetService<UserRepositoryService>();
 
                           var f = service.UpdateAsync(user)?.Result;

@@ -50,8 +50,6 @@ namespace DAL.Data
 
         public async Task<bool> UpdateAsync(T entity)
         {
-            //var us = _dbContext.Set<T>()
-            //                      .FirstOrDefault(e => e.Id == entity.Id);
             var existingOrder = _dbContext.Set<T>().SingleOrDefault(o => o.Id == entity.Id);
             if (existingOrder != null)
                 _dbContext.Entry(existingOrder).State = EntityState.Detached;
