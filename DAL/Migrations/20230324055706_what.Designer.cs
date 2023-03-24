@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230222092332_Initiolization")]
-    partial class Initiolization
+    [Migration("20230324055706_what")]
+    partial class what
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,40 +21,25 @@ namespace DAL.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.3")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.HasSequence("EntityBaseSequence");
-
-            modelBuilder.Entity("DAL.Domain.EntityBase", b =>
+            modelBuilder.Entity("DAL.Domain.Models.Animal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("NEXT VALUE FOR [EntityBaseSequence]");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseSequence(b.Property<int>("Id"));
-
-                    b.HasKey("Id");
-
-                    b.ToTable((string)null);
-
-                    b.UseTpcMappingStrategy();
-                });
-
-            modelBuilder.Entity("DAL.Domain.Models.Animal", b =>
-                {
-                    b.HasBaseType("DAL.Domain.EntityBase");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TypeId");
 
@@ -63,13 +48,19 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Domain.Models.Trophy", b =>
                 {
-                    b.HasBaseType("DAL.Domain.EntityBase");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfMurder")
                         .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AnimalId");
 
@@ -78,18 +69,28 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Domain.Models.TypeAnimal", b =>
                 {
-                    b.HasBaseType("DAL.Domain.EntityBase");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("TypeAnimals");
                 });
 
             modelBuilder.Entity("DAL.Domain.Models.User", b =>
                 {
-                    b.HasBaseType("DAL.Domain.EntityBase");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -108,6 +109,8 @@ namespace DAL.Migrations
 
                     b.Property<int>("TrophyId")
                         .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("TrophyId");
 

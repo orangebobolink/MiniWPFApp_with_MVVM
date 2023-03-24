@@ -20,14 +20,14 @@ namespace DAL.Data
         {
             var connectionString = ConfigurationManager.ConnectionStrings["TestConnectionString"]
                  .ConnectionString;
-            optionsBuilder.UseLazyLoadingProxies()
-                .UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
             optionsBuilder.LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name });
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EntityBase>().UseTpcMappingStrategy();
+
         }
     }
 }

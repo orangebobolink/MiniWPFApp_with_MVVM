@@ -3,6 +3,7 @@
     public class TrophyDTO
     {
         public int Id { get; set; }
-        public virtual AnimalDTO? Animal { get; set; }
+        public int AnimalId { get; set; }
+        public AnimalDTO? Animal { get; set; }
     }
 }

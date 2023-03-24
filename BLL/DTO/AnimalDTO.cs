@@ -3,6 +3,7 @@
     public class AnimalDTO
     {
         public int Id { get; set; }
-        public virtual TypeAnimalDTO? Type { get; set; }
+        public int TypeId { get; set; }
+        public TypeAnimalDTO? Type { get; set; }
     }
 }

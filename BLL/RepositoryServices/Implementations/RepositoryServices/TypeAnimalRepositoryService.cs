@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BLL.RepositoryServices.Implementations.RepositoryServices
 {
-    internal class TypeAnimalRepositoryService : ITypeAnimalRepositoryService
+    public class TypeAnimalRepositoryService : ITypeAnimalRepositoryService
     {
         private ITypeAnimalRepository _repository;
         private IMapper _mapper;
@@ -158,6 +158,10 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
                     StatusCode = new BadRequestResult()
                 };
             }
+        }
+        public async Task Save()
+        {
+            await _repository.Save();
         }
     }
 }

@@ -1,0 +1,113 @@
+﻿<Window x:Class="WPF.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF" xmlns:viewmodels="clr-namespace:WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UserViewModel}"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Имя" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Grid.Row="0"/>
+            <Label Content="Фамилия" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Grid.Row="1"/>
+            <Label Content="Отчество" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Grid.Row="2"/>
+            <Label Content="Животное" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Grid.Row="3"/>
+            <Label Content="Возраст" 
+                   FontSize="24" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Grid.Row="4"/>
+        </Grid>
+
+        <Grid Grid.Column="2"   
+                    >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBox Grid.Row="0" 
+                     FontSize="24" 
+                     Height="60"
+                     VerticalAlignment="Center">
+                <Binding Path="FirstName" 
+                         ValidatesOnDataErrors="True" 
+                         UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox>
+            <TextBox Grid.Row="1" 
+                     FontSize="24" 
+                     Height="60" 
+                     VerticalAlignment="Center">
+                <Binding Path="LastName" 
+                         ValidatesOnDataErrors="True" 
+                         UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox>
+            <TextBox Grid.Row="2" 
+                     FontSize="24" 
+                     Height="60" 
+                     VerticalAlignment="Center">
+                <Binding Path="MiddleName" 
+                         ValidatesOnDataErrors="True" 
+                         UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox>
+
+            <ComboBox Grid.Row="3" 
+                      FontSize="24" 
+                      Height="60" 
+                       SelectedItem="{Binding TypeAnimal}"
+                      >
+                <ComboBoxItem>Nikita</ComboBoxItem>
+                <ComboBoxItem>Vadim</ComboBoxItem>
+
+            </ComboBox>
+
+            <TextBox Grid.Row="4" FontSize="24" Height="60" 
+                     VerticalAlignment="Center">
+                <Binding Path="Age" 
+                         ValidatesOnDataErrors="True" 
+                         UpdateSourceTrigger="PropertyChanged"/>
+            </TextBox>
+
+            <Button Grid.Row="5" Width="250" Height="60" Content="Добавить"
+                    FontSize="24" Click="Button_Click"
+                    Command="{Binding AddCommand}">
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

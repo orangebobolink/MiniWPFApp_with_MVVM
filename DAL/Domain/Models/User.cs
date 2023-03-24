@@ -7,6 +7,6 @@
         public string LastName { get; set; } = string.Empty;
         public int Age { get; set; }
         public int TrophyId { get; set; }
-        public virtual Trophy? Trophy { get; set; }
+        public Trophy? Trophy { get; set; }
     }
 }

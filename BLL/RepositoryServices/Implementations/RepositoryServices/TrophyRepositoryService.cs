@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BLL.RepositoryServices.Implementations.RepositoryServices
 {
-    internal class TrophyRepositoryService : ITrophyRepositoryService
+    public class TrophyRepositoryService : ITrophyRepositoryService
     {
         private ITrophyRepository _repository;
         private IMapper _mapper;
@@ -158,6 +158,10 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
                     StatusCode = new BadRequestResult()
                 };
             }
+        }
+        public async Task Save()
+        {
+            await _repository.Save();
         }
     }
 }

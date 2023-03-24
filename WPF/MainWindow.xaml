@@ -28,15 +28,19 @@
                       Command="{Binding FillCommand}" 
                       Click="MenuItem_Click_1"/>
                 <MenuItem Name ="AddMenu" 
-                      Header="Записать" 
+                      Header="Обнавить" 
                       IsEnabled="False" 
-                      Command="{Binding RecordingCommand}" />
+                      Command="{Binding UpdateCommand}"
+                      CommandParameter="{Binding SelectedUser}"/>
                 <MenuItem Name ="DeleteMenu" 
                       Header="Удалить" 
                       IsEnabled="False" 
-                      
+     
                       Command="{Binding RemoveCommand}"
                       CommandParameter="{Binding SelectedUser}"/>
+                <MenuItem Header="Добавить" 
+                      Command="{Binding CreateAddWindowCommand}" 
+                     />
             </Menu>
         </Grid>
 
@@ -90,7 +94,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Row="1" 
+            <TextBlock  Grid.Row="1" 
                         Grid.Column="1" 
                         Text="Поиск по возрасту"
                         FontSize="18px"

@@ -65,6 +65,61 @@ namespace WPF.ViewModels
             }
         }
 
+        private string _firstName;
+        public string FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged("SelectedPhone");
+            }
+        }
+
+        private string _lastName;
+        public string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged("SelectedPhone");
+            }
+        }
+
+        private string _middleName;
+        public string MiddleName
+        {
+            get { return _middleName; }
+            set
+            {
+                _middleName = value;
+                OnPropertyChanged("SelectedPhone");
+            }
+        }
+
+        private string _age;
+        public string Age
+        {
+            get { return _age; }
+            set
+            {
+                _age = value;
+                OnPropertyChanged("SelectedPhone");
+            }
+        }
+
+        private string _typeAnimal;
+        public string TypeAnimal
+        {
+            get { return _typeAnimal; }
+            set
+            {
+                _typeAnimal = value;
+                OnPropertyChanged("SelectedPhone");
+            }
+        }
+
         private RelayCommand _fillCommand;
         public RelayCommand FillCommand
         {
@@ -89,13 +144,13 @@ namespace WPF.ViewModels
                 return _removeCommand ??
                   (_removeCommand = new RelayCommand(obj =>
                   {
-                      UserDTO phone = (UserDTO)obj;
-                      if (phone != null)
+                      UserDTO user = (UserDTO)obj;
+                      if (user != null)
                       {
-                          UsersDTO.Remove(phone);
-                          //var service = _serviceProvider.GetService<UserRepositoryService>();
+                          UsersDTO.Remove(user);
+                          var service = _serviceProvider.GetService<UserRepositoryService>();
 
-                          //var f = service.DeleteAsync(phone)?.Result;
+                          var f = service.DeleteAsync(user)?.Result;
                       }
                   },
                  (obj) => UsersDTO.Count > 0));
@@ -131,15 +186,19 @@ namespace WPF.ViewModels
                 return _findAnimalCommand ??
                   (_findAnimalCommand = new RelayCommand(async obj =>
                   {
-                      var animal = _findAnimalText;
-                      var allUsers = await GetAllUsersAsync();
+                      try
+                      {
+                          var animal = _findAnimalText;
+                          var allUsers = await GetAllUsersAsync();
 
-                      if (animal != null)
-                          allUsers = allUsers.Where(user => user.Trophy.Animal.Type.Name == animal)
-                                              .ToList();
+                          if (animal != null)
+                              allUsers = allUsers.Where(user => user.Trophy.Animal.Type.Name == animal)
+                                                  .ToList();
 
-                      UsersDTO.Clear();
-                      allUsers.ForEach(user => UsersDTO.Add(user));
+                          UsersDTO.Clear();
+                          allUsers.ForEach(user => UsersDTO.Add(user));
+                      }
+                      catch { }
                   }));
             }
         }
@@ -165,6 +224,81 @@ namespace WPF.ViewModels
             }
         }
 
+        private RelayCommand _updateCommand;
+        public RelayCommand UpdateCommand
+        {
+            get
+            {
+                return _updateCommand ??
+                  (_updateCommand = new RelayCommand(async obj =>
+                  {
+                      UserDTO user = (UserDTO)obj;
+                      if (user != null)
+                      {
+
+                          var service = _serviceProvider.GetService<UserRepositoryService>();
+
+                          var f = service.UpdateAsync(user)?.Result;
+                      }
+                  }));
+            }
+        }
+
+        private RelayCommand _createAddWindowCommand;
+        public RelayCommand CreateAddWindowCommand
+        {
+            get
+            {
+                return _createAddWindowCommand ??
+                  (_createAddWindowCommand = new RelayCommand(async obj =>
+                  {
+                      var window = new Window1();
+                      window.ShowDialog();
+                  }));
+            }
+        }
+
+        private RelayCommand _addCommand;
+        public RelayCommand AddCommand
+        {
+            get
+            {
+                return _addCommand ??
+                  (_addCommand = new RelayCommand(async obj =>
+                  {
+                      try
+                      {
+                          var allTypes = await GetAllTypeAnimalAsync();
+
+                          _typeAnimal = _typeAnimal.Split(": ")[1];
+
+                          TypeAnimalDTO? typeAnimal = allTypes
+                            .FirstOrDefault(type => type.Name == _typeAnimal);
+
+                          var allAnimal = await GetAllAnimalAsync();
+                          AnimalDTO? animal = allAnimal.FirstOrDefault(animal => animal.TypeId == typeAnimal.Id);
+
+                          TrophyDTO? trophy = (await GetAllTrophyAsync())
+                          .FirstOrDefault(trophy => trophy.AnimalId == animal.Id);
+
+                          var user = new UserDTO()
+                          {
+                              FirstName = _firstName,
+                              LastName = _lastName,
+                              MiddleName = _middleName,
+                              TrophyId = trophy.Id,
+                              Age = int.Parse(_age)
+                          };
+
+                          var service = _serviceProvider.GetService<UserRepositoryService>();
+
+                          await service.CreateAsync(user);
+                      }
+                      catch { }
+                  }));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
@@ -182,6 +316,39 @@ namespace WPF.ViewModels
             if (response.StatusCode.StatusCode == 200)
                 return response.Data;
             return new List<UserDTO>();
+        }
+
+        private async Task<List<TypeAnimalDTO>> GetAllTypeAnimalAsync()
+        {
+            var service = _serviceProvider.GetService<TypeAnimalRepositoryService>();
+
+            var response = await service.GetAllAsync();
+
+            if (response.StatusCode.StatusCode == 200)
+                return response.Data;
+            return new List<TypeAnimalDTO>();
+        }
+
+        private async Task<List<TrophyDTO>> GetAllTrophyAsync()
+        {
+            var service = _serviceProvider.GetService<TrophyRepositoryService>();
+
+            var response = await service.GetAllAsync();
+
+            if (response.StatusCode.StatusCode == 200)
+                return response.Data;
+            return new List<TrophyDTO>();
+        }
+
+        private async Task<List<AnimalDTO>> GetAllAnimalAsync()
+        {
+            var service = _serviceProvider.GetService<AnimalRepositoryService>();
+
+            var response = await service.GetAllAsync();
+
+            if (response.StatusCode.StatusCode == 200)
+                return response.Data;
+            return new List<AnimalDTO>();
         }
     }
 }

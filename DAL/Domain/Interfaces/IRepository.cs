@@ -7,5 +7,6 @@
         public Task<bool> DeleteAsync(T entity);
         public Task<bool> UpdateAsync(T entity);
         public Task<bool> CreateAsync(T entity);
+        public Task Save();
     }
 }

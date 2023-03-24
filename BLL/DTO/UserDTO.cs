@@ -9,6 +9,7 @@ namespace BLL.DTO
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        public virtual TrophyDTO? Trophy { get; set; }
+        public int TrophyId { get; set; }
+        public TrophyDTO? Trophy { get; set; }
     }
 }

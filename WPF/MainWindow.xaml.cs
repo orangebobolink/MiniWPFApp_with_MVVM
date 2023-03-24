@@ -17,9 +17,6 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IMapper _mapper;
-
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +27,6 @@ namespace WPF
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             AddMenu.IsEnabled = true;
-
             DeleteMenu.IsEnabled = true;
         }
     }

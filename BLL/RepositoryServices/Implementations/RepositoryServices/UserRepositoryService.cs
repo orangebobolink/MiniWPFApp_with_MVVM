@@ -62,8 +62,8 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
             try
             {
                 var user = await _repository.GetAllAsync();
-                var s = new Lazy<IMapper>(_mapper);
-                var values = s.Map<List<UserDTO>>(user);
+                //var s = new Lazy<IMapper>(_mapper);
+                var values = _mapper.Map<List<UserDTO>>(user);
 
                 return new BaseResponse<List<UserDTO>>()
                 {
@@ -118,8 +118,9 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
         {
             try
             {
-                var animal = _mapper.Map<User>(entity);
-                await _repository.CreateAsync(animal);
+                var user = new User();
+                _mapper.Map(entity, user);
+                await _repository.CreateAsync(user);
 
                 return new BaseResponse<bool>()
                 {
@@ -162,6 +163,11 @@ namespace BLL.RepositoryServices.Implementations.RepositoryServices
                     StatusCode = new BadRequestResult()
                 };
             }
+        }
+
+        public async Task Save()
+        {
+            await _repository.Save();
         }
     }
 }
