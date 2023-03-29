@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF" xmlns:col="clr-namespace:System.Collections;assembly=System.Runtime.Extensions" xmlns:viewmodels="clr-namespace:WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UserViewModel}"
+        xmlns:local="clr-namespace:WPF" 
+        xmlns:col="clr-namespace:System.Collections;assembly=System.Runtime.Extensions" 
+        xmlns:viewmodels="clr-namespace:WPF.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:UserViewModel}"
         mc:Ignorable="d"
         Title="ОХОТАААААА" Height="450" Width="903"
         ResizeMode="NoResize">
