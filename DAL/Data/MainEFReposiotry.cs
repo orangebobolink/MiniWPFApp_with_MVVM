@@ -18,6 +18,7 @@ namespace DAL.Data
         {
             await _dbContext.Set<T>().AddAsync(entity);
             await _dbContext.SaveChangesAsync();
+ 
 
             return true;
         }
